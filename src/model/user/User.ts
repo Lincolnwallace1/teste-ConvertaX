@@ -14,7 +14,7 @@ class User {
   id: number;
 
   @Column({ type: 'varchar', name: 'fullname', length: 255 })
-  full: string;
+  fullname: string;
 
   @Column({ type: 'varchar', name: 'email', length: 255 })
   email: string;

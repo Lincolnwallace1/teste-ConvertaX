@@ -26,6 +26,9 @@
       "@entities/*": [
         "./src/model/user/*"
       ],
+      "@model/*": [
+        "./src/model/*"
+      ],
     },
     "incremental": true,
     "skipLibCheck": true,
