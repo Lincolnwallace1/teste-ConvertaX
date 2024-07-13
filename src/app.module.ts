@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { ConfigModule } from '@nestjs/config';
+import DatabaseConfig from '@common/infra/typeorm/index';
 
 @Module({
-  imports: [ConfigModule.forRoot()],
+  imports: [DatabaseConfig],
   controllers: [AppController],
   providers: [AppService],
 })
