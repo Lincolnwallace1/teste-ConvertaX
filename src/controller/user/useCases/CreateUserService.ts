@@ -7,7 +7,7 @@ import AppError from '@common/erros/AppError';
 
 import User from '@entities/User';
 
-import CreateUserSchema from '@views/user/schemas/CreateUserSchema';
+import { CreateUserSchema } from '@views/user/schemas';
 
 interface IRequest {
   data: Z.infer<typeof CreateUserSchema>;

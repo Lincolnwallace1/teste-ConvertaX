@@ -14,18 +14,23 @@ import ValidationError from '@common/erros/ZodError';
 
 import { instanceToInstance } from 'class-transformer';
 
-import ICreateUserDTO from '@model/user/dtos/ICreateUserDTO';
-import CreateUserSchema from '@views/user/schemas/CreateUserSchema';
+import { ICreateUserDTO, IUpdateUserDTO } from '@model/user/dtos';
+import { CreateUserSchema, UpdateUserSchema } from '@views/user/schemas';
 
 import { ICreateUserResponse, IGetUserResponse } from '@views/user/responses';
 
-import { CreateUserService, GetUserService } from '@controller/user/useCases';
+import {
+  CreateUserService,
+  GetUserService,
+  UpdateUserService,
+} from '@controller/user/useCases';
 
 @Controller('users')
 class UserController {
   constructor(
     private readonly createUserService: CreateUserService,
     private readonly getUserService: GetUserService,
+    private readonly updateUserService: UpdateUserService,
   ) {}
 
   @Post()
@@ -50,6 +55,24 @@ class UserController {
     const user = await this.getUserService.execute({ id: Number(id) });
 
     return instanceToInstance(user);
+  }
+
+  @Patch(':id')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  public async update(
+    @Param('id') id: string,
+    @Body() data: IUpdateUserDTO,
+  ): Promise<void> {
+    const dataParsed = await UpdateUserSchema.parseAsync(data).catch(
+      (error) => {
+        throw new ValidationError(error);
+      },
+    );
+
+    await this.updateUserService.execute({
+      id: Number(id),
+      data: dataParsed,
+    });
   }
 }
 
