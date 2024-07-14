@@ -18,6 +18,16 @@ class App {
     const config = new DocumentBuilder()
       .setTitle('Convertax - API')
       .setDescription('API para o desafio da Convertax')
+      .addBearerAuth(
+        {
+          type: 'http',
+          scheme: 'bearer',
+          bearerFormat: 'JWT',
+          name: 'Authorization',
+          in: 'header',
+        },
+        'Bearer',
+      )
       .setVersion('1.0')
       .build();
 

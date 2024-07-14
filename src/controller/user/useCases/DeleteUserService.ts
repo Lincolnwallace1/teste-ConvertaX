@@ -1,10 +1,7 @@
 import { Injectable, HttpStatus } from '@nestjs/common';
-import { Repository } from 'typeorm';
-import { InjectRepository } from '@nestjs/typeorm';
+import UserRepository from '@model/user/repositorie/UserRepositorie';
 
 import AppError from '@common/erros/AppError';
-
-import User from '@entities/User';
 
 interface IRequest {
   id: number;
@@ -12,18 +9,10 @@ interface IRequest {
 
 @Injectable()
 class DeleteUserService {
-  constructor(
-    @InjectRepository(User)
-    private readonly userRepository: Repository<User>,
-  ) {}
+  constructor(private readonly userRepository: UserRepository) {}
 
   public async execute({ id }: IRequest): Promise<void> {
-    const user = await this.userRepository.findOne({
-      where: {
-        id,
-        enabled: true,
-      },
-    });
+    const user = await this.userRepository.get({ id, enabled: true });
 
     if (!user) {
       throw new AppError({

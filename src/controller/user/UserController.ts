@@ -8,9 +8,17 @@ import {
   Post,
   Patch,
   HttpStatus,
+  UseGuards,
 } from '@nestjs/common';
 
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { AuthGuard } from '@nestjs/passport';
+
+import {
+  ApiBearerAuth,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 
 import ValidationError from '@common/erros/ZodError';
 
@@ -27,7 +35,8 @@ import {
   UpdateUserService,
   DeleteUserService,
 } from '@controller/user/useCases';
-
+@UseGuards(AuthGuard('jwt'))
+@ApiBearerAuth('Bearer')
 @ApiTags('User')
 @Controller('users')
 class UserController {
@@ -48,6 +57,10 @@ class UserController {
   @ApiResponse({
     description: 'Validation error',
     status: HttpStatus.BAD_REQUEST,
+  })
+  @ApiResponse({
+    description: 'Unauthorized',
+    status: HttpStatus.UNAUTHORIZED,
   })
   @ApiResponse({
     description: 'User already exists',
@@ -76,6 +89,10 @@ class UserController {
     status: HttpStatus.OK,
   })
   @ApiResponse({
+    description: 'Unauthorized',
+    status: HttpStatus.UNAUTHORIZED,
+  })
+  @ApiResponse({
     description: 'User not found',
     status: HttpStatus.NOT_FOUND,
   })
@@ -95,6 +112,10 @@ class UserController {
   @ApiResponse({
     description: 'Validation error',
     status: HttpStatus.BAD_REQUEST,
+  })
+  @ApiResponse({
+    description: 'Unauthorized',
+    status: HttpStatus.UNAUTHORIZED,
   })
   @ApiResponse({
     description: 'User not found',
@@ -122,6 +143,10 @@ class UserController {
   @ApiResponse({
     description: 'User deleted',
     status: HttpStatus.NO_CONTENT,
+  })
+  @ApiResponse({
+    description: 'Unauthorized',
+    status: HttpStatus.UNAUTHORIZED,
   })
   @ApiResponse({
     description: 'User not found',

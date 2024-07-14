@@ -13,6 +13,14 @@ const ConfigSchema = Z.object({
     port: Z.number(),
     logging: Z.boolean(),
   }),
+  security: Z.object({
+    authEnabled: Z.boolean(),
+    adminToken: Z.string(),
+    accessTokenSecret: Z.string(),
+    refreshTokenSecret: Z.string(),
+    accessTokenExp: Z.number(),
+    refreshTokenExp: Z.number(),
+  }),
 });
 
 export default ConfigSchema;
