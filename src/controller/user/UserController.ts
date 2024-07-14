@@ -12,16 +12,21 @@ import {
 
 import ValidationError from '@common/erros/ZodError';
 
+import { instanceToInstance } from 'class-transformer';
+
 import ICreateUserDTO from '@model/user/dtos/ICreateUserDTO';
 import CreateUserSchema from '@views/user/schemas/CreateUserSchema';
 
-import ICreateUserResponse from '@views/user/responses/ICreateUserResponse';
+import { ICreateUserResponse, IGetUserResponse } from '@views/user/responses';
 
-import { CreateUserService } from '@controller/user/useCases';
+import { CreateUserService, GetUserService } from '@controller/user/useCases';
 
 @Controller('users')
 class UserController {
-  constructor(private readonly userService: CreateUserService) {}
+  constructor(
+    private readonly createUserService: CreateUserService,
+    private readonly getUserService: GetUserService,
+  ) {}
 
   @Post()
   @HttpCode(HttpStatus.CREATED)
@@ -34,9 +39,17 @@ class UserController {
       },
     );
 
-    const user = await this.userService.execute({ data: dataParsed });
+    const user = await this.createUserService.execute({ data: dataParsed });
 
     return { id: user.id };
+  }
+
+  @Get(':id')
+  @HttpCode(HttpStatus.OK)
+  public async get(@Param('id') id: string): Promise<IGetUserResponse> {
+    const user = await this.getUserService.execute({ id: Number(id) });
+
+    return instanceToInstance(user);
   }
 }
 
