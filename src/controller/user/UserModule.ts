@@ -7,6 +7,7 @@ import {
   CreateUserService,
   GetUserService,
   UpdateUserService,
+  DeleteUserService,
 } from './useCases';
 
 import User from '@model/user/User';
@@ -14,6 +15,11 @@ import User from '@model/user/User';
 @Module({
   imports: [TypeOrmModule.forFeature([User])],
   controllers: [UserController],
-  providers: [CreateUserService, GetUserService, UpdateUserService],
+  providers: [
+    CreateUserService,
+    GetUserService,
+    UpdateUserService,
+    DeleteUserService,
+  ],
 })
 export class UserModule {}

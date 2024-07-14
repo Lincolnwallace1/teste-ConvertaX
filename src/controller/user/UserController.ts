@@ -23,6 +23,7 @@ import {
   CreateUserService,
   GetUserService,
   UpdateUserService,
+  DeleteUserService,
 } from '@controller/user/useCases';
 
 @Controller('users')
@@ -31,6 +32,7 @@ class UserController {
     private readonly createUserService: CreateUserService,
     private readonly getUserService: GetUserService,
     private readonly updateUserService: UpdateUserService,
+    private readonly deleteUserService: DeleteUserService,
   ) {}
 
   @Post()
@@ -73,6 +75,12 @@ class UserController {
       id: Number(id),
       data: dataParsed,
     });
+  }
+
+  @Delete(':id')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  public async delete(@Param('id') id: string): Promise<void> {
+    await this.deleteUserService.execute({ id: Number(id) });
   }
 }
 
