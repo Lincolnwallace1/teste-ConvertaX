@@ -10,6 +10,8 @@ import {
   HttpStatus,
 } from '@nestjs/common';
 
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+
 import ValidationError from '@common/erros/ZodError';
 
 import { instanceToInstance } from 'class-transformer';
@@ -26,6 +28,7 @@ import {
   DeleteUserService,
 } from '@controller/user/useCases';
 
+@ApiTags('User')
 @Controller('users')
 class UserController {
   constructor(
@@ -35,7 +38,21 @@ class UserController {
     private readonly deleteUserService: DeleteUserService,
   ) {}
 
-  @Post()
+  @Post('/')
+  @ApiOperation({ summary: 'Create a user' })
+  @ApiResponse({
+    description: 'User created',
+    type: ICreateUserResponse,
+    status: HttpStatus.CREATED,
+  })
+  @ApiResponse({
+    description: 'Validation error',
+    status: HttpStatus.BAD_REQUEST,
+  })
+  @ApiResponse({
+    description: 'User already exists',
+    status: HttpStatus.CONFLICT,
+  })
   @HttpCode(HttpStatus.CREATED)
   public async create(
     @Body() data: ICreateUserDTO,
@@ -52,6 +69,16 @@ class UserController {
   }
 
   @Get(':id')
+  @ApiOperation({ summary: 'Get a user' })
+  @ApiResponse({
+    description: 'User',
+    type: IGetUserResponse,
+    status: HttpStatus.OK,
+  })
+  @ApiResponse({
+    description: 'User not found',
+    status: HttpStatus.NOT_FOUND,
+  })
   @HttpCode(HttpStatus.OK)
   public async get(@Param('id') id: string): Promise<IGetUserResponse> {
     const user = await this.getUserService.execute({ id: Number(id) });
@@ -60,6 +87,19 @@ class UserController {
   }
 
   @Patch(':id')
+  @ApiOperation({ summary: 'Update a user' })
+  @ApiResponse({
+    description: 'User updated',
+    status: HttpStatus.NO_CONTENT,
+  })
+  @ApiResponse({
+    description: 'Validation error',
+    status: HttpStatus.BAD_REQUEST,
+  })
+  @ApiResponse({
+    description: 'User not found',
+    status: HttpStatus.NOT_FOUND,
+  })
   @HttpCode(HttpStatus.NO_CONTENT)
   public async update(
     @Param('id') id: string,
@@ -78,6 +118,15 @@ class UserController {
   }
 
   @Delete(':id')
+  @ApiOperation({ summary: 'Delete a user' })
+  @ApiResponse({
+    description: 'User deleted',
+    status: HttpStatus.NO_CONTENT,
+  })
+  @ApiResponse({
+    description: 'User not found',
+    status: HttpStatus.NOT_FOUND,
+  })
   @HttpCode(HttpStatus.NO_CONTENT)
   public async delete(@Param('id') id: string): Promise<void> {
     await this.deleteUserService.execute({ id: Number(id) });
