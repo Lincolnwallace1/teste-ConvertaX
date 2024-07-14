@@ -20,14 +20,17 @@
       "@config/*": [
         "./src/config/*"
       ],
-      "@controllers/*": [
-        "./src/controllers/*"
+      "@controller/*": [
+        "./src/controller/*"
       ],
       "@entities/*": [
         "./src/model/user/*"
       ],
       "@model/*": [
         "./src/model/*"
+      ],
+      "@views/*": [
+        "./src/views/*"
       ],
     },
     "incremental": true,
