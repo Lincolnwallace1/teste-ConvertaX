@@ -17,6 +17,12 @@ class InvestmentHistoryResponse {
 
   @ApiProperty()
   valueWithdrawn: number;
+
+  @ApiProperty()
+  realValueWithdrawn: number;
+
+  @ApiProperty()
+  tax: number;
 }
 
 class InvestmentResponse {
@@ -39,7 +45,7 @@ class InvestmentResponse {
   status: string;
 
   @ApiProperty({ type: [InvestmentHistoryResponse] })
-  history?: InvestmentHistoryResponse[];
+  history: InvestmentHistoryResponse[];
 }
 
 class IGetInvestmentResponse {

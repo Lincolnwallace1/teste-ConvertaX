@@ -2,6 +2,8 @@ import { Injectable, HttpStatus } from '@nestjs/common';
 import Z from 'zod';
 import AppError from '@common/erros/AppError';
 
+import UtilsDate from '@/utils/UtilsDate';
+
 import UserRepositorie from '@model/user/repositorie/UserRepositorie';
 import InvestmentRepository from '@model/investment/repositorie/InvestmentRepositorie';
 
@@ -63,8 +65,11 @@ class CreateInvestmentService {
       });
     }
 
-    const months = this.diferenceMonth(new Date(data.initialDate), new Date());
-    const t = months / 12;
+    const months = new UtilsDate().diferenceMonth(
+      new Date(data.initialDate),
+      new Date(),
+    );
+    const t = months;
     const r = 0.0052;
 
     const expectedValue = this.calculateInterest(data.initialValue, r, t);
@@ -81,12 +86,6 @@ class CreateInvestmentService {
       ...investment,
     };
   }
-
-  private diferenceMonth = (initialDate: Date, finalDate: Date): number => {
-    const years = finalDate.getFullYear() - initialDate.getFullYear();
-    const months = finalDate.getMonth() - initialDate.getMonth();
-    return years * 12 + months;
-  };
 
   private calculateInterest = (P: number, r: number, t: number): number => {
     return P * Math.pow(1 + r, t);

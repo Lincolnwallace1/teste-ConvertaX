@@ -6,11 +6,13 @@ import {
   Entity,
   ManyToOne,
   JoinColumn,
+  OneToMany,
 } from 'typeorm';
 
 import { Exclude } from 'class-transformer';
 
 import User from '@entities/User';
+import History from '@entities/History';
 
 @Entity('investment')
 class Investment {
@@ -52,6 +54,9 @@ class Investment {
   @Exclude()
   @UpdateDateColumn({ type: 'timestamp', name: 'updatedAt' })
   updatedAt: Date;
+
+  @OneToMany(() => History, (history) => history.investment_)
+  history: History[];
 }
 
 export default Investment;

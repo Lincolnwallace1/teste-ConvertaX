@@ -10,7 +10,7 @@ import {
 } from '@model/investment/dtos';
 
 @Injectable()
-class InvestmentRepositorie {
+class InvestmentRepository {
   constructor(
     @InjectRepository(Investment)
     private readonly investmentRepository: Repository<Investment>,
@@ -51,4 +51,4 @@ class InvestmentRepositorie {
   }
 }
 
-export default InvestmentRepositorie;
+export default InvestmentRepository;

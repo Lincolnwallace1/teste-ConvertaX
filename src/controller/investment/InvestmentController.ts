@@ -1,9 +1,7 @@
 import {
   Body,
   Controller,
-  Delete,
   Get,
-  HttpCode,
   Param,
   Post,
   Patch,
@@ -22,17 +20,26 @@ import {
 
 import ValidationError from '@common/erros/ZodError';
 
-// import { instanceToInstance } from 'class-transformer';
-
-import { ICreateInvestmentDTO } from '@model/investment/dtos';
-import { CreateInvestmentSchema } from '@views/investment/schemas';
+import {
+  ICreateInvestmentDTO,
+  IUpdateInvestmentDTO,
+} from '@model/investment/dtos';
+import {
+  CreateInvestmentSchema,
+  UpdateInvestmentSchema,
+} from '@views/investment/schemas';
 
 import {
   ICreateInvestmentResponse,
   IGetInvestmentResponse,
+  IWithdrawnInvestmentResponse,
 } from '@views/investment/responses';
 
-import { CreateInvestmentService, GetInvestmentService } from './useCases';
+import {
+  CreateInvestmentService,
+  GetInvestmentService,
+  WithdrawInvestmentService,
+} from './useCases';
 
 @ApiTags('Investment')
 @Controller('investments')
@@ -40,6 +47,7 @@ class InvestmentController {
   constructor(
     private readonly createInvestmentService: CreateInvestmentService,
     private readonly getInvestmentService: GetInvestmentService,
+    private readonly withdrawInvestmentService: WithdrawInvestmentService,
   ) {}
 
   @Post('/')
@@ -52,6 +60,14 @@ class InvestmentController {
   @ApiResponse({
     description: 'Validation error',
     status: HttpStatus.BAD_REQUEST,
+  })
+  @ApiResponse({
+    description: 'Unauthorized',
+    status: HttpStatus.UNAUTHORIZED,
+  })
+  @ApiResponse({
+    description: 'User not found',
+    status: HttpStatus.NOT_FOUND,
   })
   async createInvestment(
     @Body() data: ICreateInvestmentDTO,
@@ -77,6 +93,10 @@ class InvestmentController {
     status: HttpStatus.OK,
   })
   @ApiResponse({
+    description: 'Unauthorized',
+    status: HttpStatus.UNAUTHORIZED,
+  })
+  @ApiResponse({
     description: 'Investment not found',
     status: HttpStatus.NOT_FOUND,
   })
@@ -84,6 +104,43 @@ class InvestmentController {
     @Param('id') id: number,
   ): Promise<IGetInvestmentResponse> {
     const investment = await this.getInvestmentService.execute({ id });
+
+    return investment;
+  }
+
+  @Patch('/:id')
+  @ApiOperation({ summary: 'Withdrawn a investment' })
+  @ApiResponse({
+    description: 'Investment withdrawn',
+    type: IWithdrawnInvestmentResponse,
+    status: HttpStatus.OK,
+  })
+  @ApiResponse({
+    description: 'Validation error',
+    status: HttpStatus.BAD_REQUEST,
+  })
+  @ApiResponse({
+    description: 'Unauthorized',
+    status: HttpStatus.UNAUTHORIZED,
+  })
+  @ApiResponse({
+    description: 'Investment not found',
+    status: HttpStatus.NOT_FOUND,
+  })
+  async withdrawnInvestment(
+    @Param('id') id: number,
+    @Body() data: IUpdateInvestmentDTO,
+  ): Promise<IWithdrawnInvestmentResponse> {
+    const dataParsed = await UpdateInvestmentSchema.parseAsync(data).catch(
+      (error) => {
+        throw new ValidationError(error);
+      },
+    );
+
+    const investment = await this.withdrawInvestmentService.execute({
+      id,
+      data: dataParsed,
+    });
 
     return investment;
   }

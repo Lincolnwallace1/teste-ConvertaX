@@ -14,7 +14,10 @@ class GetInvestmentService {
   constructor(private readonly investmentRepository: InvestmentRepository) {}
 
   public async execute({ id }: IRequest): Promise<IGetInvestmentResponse> {
-    const investment = await this.investmentRepository.get({ id }, ['user_']);
+    const investment = await this.investmentRepository.get({ id }, [
+      'user_',
+      'history',
+    ]);
 
     if (!investment) {
       throw new AppError({
@@ -37,10 +40,14 @@ class GetInvestmentService {
         initialValue: Number(investment.initialValue),
         expectedValue: Number(investment.expectedValue),
         status: investment.status,
-        // history: investment.history.map((history) => ({
-        //   date: history.date,
-        //   valueWithdrawn: history.valueWithdrawn,
-        // })),
+        history: investment.history
+          ? investment.history.map((history) => ({
+              date: history.date,
+              valueWithdrawn: Number(history.valueWithdrawn),
+              realValueWithdrawn: Number(history.realValueWithdrawn),
+              tax: Number(history.tax),
+            }))
+          : [],
       },
     } as IGetInvestmentResponse;
 

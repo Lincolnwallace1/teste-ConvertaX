@@ -25,7 +25,8 @@
       ],
       "@entities/*": [
         "./src/model/user/*",
-        "./src/model/investment/*"
+        "./src/model/investment/*",
+        "./src/model/history/*"
       ],
       "@model/*": [
         "./src/model/*"

@@ -3,7 +3,6 @@ import {
   Controller,
   Delete,
   Get,
-  HttpCode,
   Param,
   Post,
   Patch,
@@ -66,7 +65,6 @@ class UserController {
     description: 'User already exists',
     status: HttpStatus.CONFLICT,
   })
-  @HttpCode(HttpStatus.CREATED)
   public async create(
     @Body() data: ICreateUserDTO,
   ): Promise<ICreateUserResponse> {
@@ -96,7 +94,6 @@ class UserController {
     description: 'User not found',
     status: HttpStatus.NOT_FOUND,
   })
-  @HttpCode(HttpStatus.OK)
   public async get(@Param('id') id: string): Promise<IGetUserResponse> {
     const user = await this.getUserService.execute({ id: Number(id) });
 
@@ -121,7 +118,6 @@ class UserController {
     description: 'User not found',
     status: HttpStatus.NOT_FOUND,
   })
-  @HttpCode(HttpStatus.NO_CONTENT)
   public async update(
     @Param('id') id: string,
     @Body() data: IUpdateUserDTO,
@@ -152,7 +148,6 @@ class UserController {
     description: 'User not found',
     status: HttpStatus.NOT_FOUND,
   })
-  @HttpCode(HttpStatus.NO_CONTENT)
   public async delete(@Param('id') id: string): Promise<void> {
     await this.deleteUserService.execute({ id: Number(id) });
   }
