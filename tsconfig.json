@@ -10,6 +10,31 @@
     "sourceMap": true,
     "outDir": "./dist",
     "baseUrl": "./",
+    "paths": {
+      "@/*": [
+        "./src/*"
+      ],
+      "@common/*": [
+        "./src/common/*"
+      ],
+      "@config/*": [
+        "./src/config/*"
+      ],
+      "@controller/*": [
+        "./src/controller/*"
+      ],
+      "@entities/*": [
+        "./src/model/user/*",
+        "./src/model/investment/*",
+        "./src/model/history/*"
+      ],
+      "@model/*": [
+        "./src/model/*"
+      ],
+      "@views/*": [
+        "./src/views/*"
+      ],
+    },
     "incremental": true,
     "skipLibCheck": true,
     "strictNullChecks": false,

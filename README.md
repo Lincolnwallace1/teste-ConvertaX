@@ -71,3 +71,7 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 ## License
 
 Nest is [MIT licensed](LICENSE).
+
+## Testar o projeto
+
+É necessario ter um banco de dados criado com as variaveis de ambiente disponiveis no env.example e usar o comando yarn start depois de usar o start.
