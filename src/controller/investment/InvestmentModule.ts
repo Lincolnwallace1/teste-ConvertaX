@@ -13,6 +13,7 @@ import {
   CreateInvestmentService,
   GetInvestmentService,
   WithdrawInvestmentService,
+  ListInvestmentService,
 } from './useCases';
 
 @Module({
@@ -22,6 +23,7 @@ import {
     CreateInvestmentService,
     GetInvestmentService,
     WithdrawInvestmentService,
+    ListInvestmentService,
     InvestmentRepositorie,
   ],
 })

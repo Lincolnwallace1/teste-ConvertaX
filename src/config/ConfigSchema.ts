@@ -14,12 +14,8 @@ const ConfigSchema = Z.object({
     logging: Z.boolean(),
   }),
   security: Z.object({
-    authEnabled: Z.boolean(),
-    adminToken: Z.string(),
     accessTokenSecret: Z.string(),
-    refreshTokenSecret: Z.string(),
     accessTokenExp: Z.number(),
-    refreshTokenExp: Z.number(),
   }),
 });
 

@@ -16,12 +16,8 @@ const Config = ConfigSchema.parse({
     logging: process.env.POSTGRES_LOGGING === 'true',
   },
   security: {
-    authEnabled: process.env.AUTH_ENABLED === 'true',
-    adminToken: process.env.AUTH_ADMIN_TOKEN,
     accessTokenSecret: process.env.AUTH_ACCESS_TOKEN_SECRET,
-    refreshTokenSecret: process.env.AUTH_REFRESH_TOKEN_SECRET,
     accessTokenExp: Number(process.env.AUTH_ACCESS_TOKEN_EXP),
-    refreshTokenExp: Number(process.env.AUTH_REFRESH_TOKEN_EXP),
   },
 });
 

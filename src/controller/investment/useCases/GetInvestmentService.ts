@@ -3,7 +3,7 @@ import AppError from '@common/erros/AppError';
 
 import InvestmentRepository from '@model/investment/repositorie/InvestmentRepositorie';
 
-import IGetInvestmentResponse from '@views/investment/responses/IGetInvestmentResponse';
+import { IGetInvestmentResponse } from '@views/investment/responses';
 
 interface IRequest {
   id: number;

@@ -7,6 +7,7 @@ import {
   Patch,
   HttpStatus,
   UseGuards,
+  Query,
 } from '@nestjs/common';
 
 // import { AuthGuard } from '@nestjs/passport';
@@ -23,22 +24,26 @@ import ValidationError from '@common/erros/ZodError';
 import {
   ICreateInvestmentDTO,
   IUpdateInvestmentDTO,
+  IListInvestmentDTO,
 } from '@model/investment/dtos';
 import {
   CreateInvestmentSchema,
   UpdateInvestmentSchema,
+  ListInvestmentSchema,
 } from '@views/investment/schemas';
 
 import {
   ICreateInvestmentResponse,
   IGetInvestmentResponse,
   IWithdrawnInvestmentResponse,
+  IListInvestmentResponse,
 } from '@views/investment/responses';
 
 import {
   CreateInvestmentService,
   GetInvestmentService,
   WithdrawInvestmentService,
+  ListInvestmentService,
 } from './useCases';
 
 @ApiTags('Investment')
@@ -48,6 +53,7 @@ class InvestmentController {
     private readonly createInvestmentService: CreateInvestmentService,
     private readonly getInvestmentService: GetInvestmentService,
     private readonly withdrawInvestmentService: WithdrawInvestmentService,
+    private readonly listInvestmentService: ListInvestmentService,
   ) {}
 
   @Post('/')
@@ -143,6 +149,33 @@ class InvestmentController {
     });
 
     return investment;
+  }
+
+  @Get('/')
+  @ApiOperation({ summary: 'List investments' })
+  @ApiResponse({
+    description: 'Investments found',
+    type: IListInvestmentResponse,
+    status: HttpStatus.OK,
+  })
+  @ApiResponse({
+    description: 'Unauthorized',
+    status: HttpStatus.UNAUTHORIZED,
+  })
+  async list(
+    @Query() data: IListInvestmentDTO,
+  ): Promise<IListInvestmentResponse> {
+    const dataParsed = await ListInvestmentSchema.parseAsync(data).catch(
+      (error) => {
+        throw new ValidationError(error);
+      },
+    );
+
+    const investments = await this.listInvestmentService.execute({
+      data: dataParsed,
+    });
+
+    return investments;
   }
 }
 
