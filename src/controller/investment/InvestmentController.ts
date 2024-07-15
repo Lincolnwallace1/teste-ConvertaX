@@ -27,15 +27,19 @@ import ValidationError from '@common/erros/ZodError';
 import { ICreateInvestmentDTO } from '@model/investment/dtos';
 import { CreateInvestmentSchema } from '@views/investment/schemas';
 
-import { ICreateInvestmentResponse } from '@views/investment/responses';
+import {
+  ICreateInvestmentResponse,
+  IGetInvestmentResponse,
+} from '@views/investment/responses';
 
-import { CreateInvestmentService } from './useCases';
+import { CreateInvestmentService, GetInvestmentService } from './useCases';
 
 @ApiTags('Investment')
 @Controller('investments')
 class InvestmentController {
   constructor(
     private readonly createInvestmentService: CreateInvestmentService,
+    private readonly getInvestmentService: GetInvestmentService,
   ) {}
 
   @Post('/')
@@ -63,6 +67,25 @@ class InvestmentController {
     });
 
     return { id: investment.id };
+  }
+
+  @Get('/:id')
+  @ApiOperation({ summary: 'Get a investment' })
+  @ApiResponse({
+    description: 'Investment found',
+    type: IGetInvestmentResponse,
+    status: HttpStatus.OK,
+  })
+  @ApiResponse({
+    description: 'Investment not found',
+    status: HttpStatus.NOT_FOUND,
+  })
+  async getInvestment(
+    @Param('id') id: number,
+  ): Promise<IGetInvestmentResponse> {
+    const investment = await this.getInvestmentService.execute({ id });
+
+    return investment;
   }
 }
 

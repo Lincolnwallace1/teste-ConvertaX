@@ -1,19 +1,22 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-import InvestmentController from '@controller/investment/InvestmentController';
-
-import { CreateInvestmentService } from './useCases';
+import { UserModule } from '@controller/user/UserModule';
 
 import Investment from '@entities/Investment';
 
 import InvestmentRepositorie from '@model/investment/repositorie/InvestmentRepositorie';
+import InvestmentController from '@controller/investment/InvestmentController';
 
-import { UserModule } from '@controller/user/UserModule';
+import { CreateInvestmentService, GetInvestmentService } from './useCases';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Investment]), UserModule],
   controllers: [InvestmentController],
-  providers: [CreateInvestmentService, InvestmentRepositorie],
+  providers: [
+    CreateInvestmentService,
+    GetInvestmentService,
+    InvestmentRepositorie,
+  ],
 })
 export class InvestmentModule {}
