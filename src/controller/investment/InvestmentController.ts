@@ -10,7 +10,7 @@ import {
   Query,
 } from '@nestjs/common';
 
-// import { AuthGuard } from '@nestjs/passport';
+import { AuthGuard } from '@nestjs/passport';
 
 import {
   ApiBearerAuth,
@@ -46,6 +46,8 @@ import {
   ListInvestmentService,
 } from './useCases';
 
+@UseGuards(AuthGuard('jwt'))
+@ApiBearerAuth('Bearer')
 @ApiTags('Investment')
 @Controller('investments')
 class InvestmentController {
