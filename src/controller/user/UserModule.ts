@@ -10,7 +10,7 @@ import {
   DeleteUserService,
 } from './useCases';
 
-import User from '@model/user/User';
+import User from '@entities/User';
 
 import UserRepositorie from '@model/user/repositorie/UserRepositorie';
 

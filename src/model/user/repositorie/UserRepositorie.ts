@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import User from '@model/user/User';
+import User from '@entities/User';
 
 import { ICreateUserDTO, IUpdateUserDTO } from '@model/user/dtos';
 

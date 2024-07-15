@@ -24,7 +24,8 @@
         "./src/controller/*"
       ],
       "@entities/*": [
-        "./src/model/user/*"
+        "./src/model/user/*",
+        "./src/model/investment/*"
       ],
       "@model/*": [
         "./src/model/*"
