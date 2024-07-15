@@ -9,6 +9,7 @@ import {
   UseGuards,
   Query,
 } from '@nestjs/common';
+import { Cron } from '@nestjs/schedule';
 
 import { AuthGuard } from '@nestjs/passport';
 
@@ -44,6 +45,7 @@ import {
   GetInvestmentService,
   WithdrawInvestmentService,
   ListInvestmentService,
+  PaymentInvestmentService,
 } from './useCases';
 
 @UseGuards(AuthGuard('jwt'))
@@ -56,6 +58,7 @@ class InvestmentController {
     private readonly getInvestmentService: GetInvestmentService,
     private readonly withdrawInvestmentService: WithdrawInvestmentService,
     private readonly listInvestmentService: ListInvestmentService,
+    private readonly paymentInvestmentService: PaymentInvestmentService,
   ) {}
 
   @Post('/')
@@ -178,6 +181,11 @@ class InvestmentController {
     });
 
     return investments;
+  }
+
+  @Cron('0 0 */1 * * *')
+  handleCron() {
+    this.paymentInvestmentService.execute();
   }
 }
 

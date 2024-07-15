@@ -14,6 +14,7 @@ import {
   GetInvestmentService,
   WithdrawInvestmentService,
   ListInvestmentService,
+  PaymentInvestmentService,
 } from './useCases';
 
 @Module({
@@ -25,6 +26,7 @@ import {
     WithdrawInvestmentService,
     ListInvestmentService,
     InvestmentRepositorie,
+    PaymentInvestmentService,
   ],
 })
 export class InvestmentModule {}

@@ -49,6 +49,18 @@ class InvestmentRepository {
       skip,
     });
   }
+
+  public async paymentList(): Promise<Investment[]> {
+    const investments = await this.investmentRepository
+      .createQueryBuilder('investment')
+      .where(
+        "DATE_PART('day', investment.initialDate) = DATE_PART('day', CURRENT_TIMESTAMP)",
+        { date: new Date() },
+      )
+      .getMany();
+
+    return investments;
+  }
 }
 
 export default InvestmentRepository;
