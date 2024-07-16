@@ -110,3 +110,5 @@ AUTH_ACCESS_TOKEN_EXP=1200
 ```
 
 Após configurar o banco de dados e criar o arquivo .env com as variáveis de ambiente, você pode iniciar a aplicação usando o comando yarn start.
+
+Para validação dos dados de entrada foi usada a lib [Zod](https://zod.dev/). As demais libs usadas foram implementadas diretamente do framework `NestJS`.
