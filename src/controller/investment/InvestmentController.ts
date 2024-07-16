@@ -8,6 +8,7 @@ import {
   HttpStatus,
   UseGuards,
   Query,
+  HttpCode,
 } from '@nestjs/common';
 import { Cron } from '@nestjs/schedule';
 
@@ -43,7 +44,7 @@ import {
 import {
   CreateInvestmentService,
   GetInvestmentService,
-  WithdrawInvestmentService,
+  WithdrawnInvestmentService,
   ListInvestmentService,
   PaymentInvestmentService,
 } from './useCases';
@@ -56,7 +57,7 @@ class InvestmentController {
   constructor(
     private readonly createInvestmentService: CreateInvestmentService,
     private readonly getInvestmentService: GetInvestmentService,
-    private readonly withdrawInvestmentService: WithdrawInvestmentService,
+    private readonly withdrawInvestmentService: WithdrawnInvestmentService,
     private readonly listInvestmentService: ListInvestmentService,
     private readonly paymentInvestmentService: PaymentInvestmentService,
   ) {}
@@ -80,7 +81,7 @@ class InvestmentController {
     description: 'User not found',
     status: HttpStatus.NOT_FOUND,
   })
-  async createInvestment(
+  async create(
     @Body() data: ICreateInvestmentDTO,
   ): Promise<ICreateInvestmentResponse> {
     const dataParsed = await CreateInvestmentSchema.parseAsync(data).catch(
@@ -111,15 +112,14 @@ class InvestmentController {
     description: 'Investment not found',
     status: HttpStatus.NOT_FOUND,
   })
-  async getInvestment(
-    @Param('id') id: number,
-  ): Promise<IGetInvestmentResponse> {
+  async get(@Param('id') id: number): Promise<IGetInvestmentResponse> {
     const investment = await this.getInvestmentService.execute({ id });
 
     return investment;
   }
 
   @Patch('/:id')
+  @HttpCode(HttpStatus.NO_CONTENT)
   @ApiOperation({ summary: 'Withdrawn a investment' })
   @ApiResponse({
     description: 'Investment withdrawn',
@@ -138,7 +138,7 @@ class InvestmentController {
     description: 'Investment not found',
     status: HttpStatus.NOT_FOUND,
   })
-  async withdrawnInvestment(
+  async withdrawn(
     @Param('id') id: number,
     @Body() data: IUpdateInvestmentDTO,
   ): Promise<IWithdrawnInvestmentResponse> {

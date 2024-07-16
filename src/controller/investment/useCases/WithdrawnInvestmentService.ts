@@ -17,7 +17,7 @@ interface IRequest {
 }
 
 @Injectable()
-class UpdateInvestmentService {
+class WithdrawnInvestmentService {
   constructor(
     private readonly investmentRepository: InvestmentRepository,
     private readonly historyRepository: HistoryRepository,
@@ -96,4 +96,4 @@ class UpdateInvestmentService {
   }
 }
 
-export default UpdateInvestmentService;
+export default WithdrawnInvestmentService;

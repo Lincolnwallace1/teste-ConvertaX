@@ -2,13 +2,13 @@ import { ApiProperty } from '@nestjs/swagger';
 
 class IListInvestmentDTO {
   @ApiProperty({ example: 50 })
-  limit: number;
+  limit: string;
 
   @ApiProperty({ example: 0 })
-  offset: number;
+  offset: string;
 
   @ApiProperty({ example: 1 })
-  user: number;
+  user: string;
 
   @ApiProperty({
     example: 'active',
