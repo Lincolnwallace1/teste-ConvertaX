@@ -27,7 +27,6 @@ class UpdateUserService {
       });
     }
 
-    // Verificação da senha antiga e atualização da nova senha
     if (data.password) {
       user.password = await argon2.hash(data.password);
     }

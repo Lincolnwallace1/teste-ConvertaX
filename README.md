@@ -74,4 +74,39 @@ Nest is [MIT licensed](LICENSE).
 
 ## Testar o projeto
 
-É necessario ter um banco de dados criado com as variaveis de ambiente disponiveis no env.example e usar o comando yarn start depois de usar o start.
+
+Para configurar o ambiente corretamente, siga os passos abaixo: certifique-se de ter uma imagem Docker do PostgreSQL configurada com o nome do banco de dados como convertax. Crie um arquivo .env na raiz do seu projeto com as seguintes variáveis de ambiente:
+
+```shell
+###################
+# General config
+# V.01
+###################
+
+API_PORT=8080
+API_HOST=http://localhost:8080
+
+###################
+# Database config
+# V.01
+###################
+
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=postgres
+POSTGRES_DATABASE=convertax
+POSTGRES_HOST=localhost
+POSTGRES_LOGGING=false
+POSTGRES_PORT=5432
+POSTGRES_SSL=false
+
+###################
+# Auth config
+# V.01
+###################
+
+AUTH_ACCESS_TOKEN_SECRET=mdasdaasmasp
+AUTH_ACCESS_TOKEN_EXP=1200
+
+```
+
+Após configurar o banco de dados e criar o arquivo .env com as variáveis de ambiente, você pode iniciar a aplicação usando o comando yarn start.

@@ -12,7 +12,7 @@ import InvestmentController from '@controller/investment/InvestmentController';
 import {
   CreateInvestmentService,
   GetInvestmentService,
-  WithdrawInvestmentService,
+  WithdrawnInvestmentService,
   ListInvestmentService,
   PaymentInvestmentService,
 } from './useCases';
@@ -23,7 +23,7 @@ import {
   providers: [
     CreateInvestmentService,
     GetInvestmentService,
-    WithdrawInvestmentService,
+    WithdrawnInvestmentService,
     ListInvestmentService,
     InvestmentRepositorie,
     PaymentInvestmentService,

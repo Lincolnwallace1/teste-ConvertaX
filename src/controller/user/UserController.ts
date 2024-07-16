@@ -8,6 +8,7 @@ import {
   Patch,
   HttpStatus,
   UseGuards,
+  HttpCode,
 } from '@nestjs/common';
 
 import { AuthGuard } from '@nestjs/passport';
@@ -101,6 +102,7 @@ class UserController {
   }
 
   @Patch(':id')
+  @HttpCode(HttpStatus.NO_CONTENT)
   @ApiOperation({ summary: 'Update a user' })
   @ApiResponse({
     description: 'User updated',
@@ -135,6 +137,7 @@ class UserController {
   }
 
   @Delete(':id')
+  @HttpCode(HttpStatus.NO_CONTENT)
   @ApiOperation({ summary: 'Delete a user' })
   @ApiResponse({
     description: 'User deleted',
